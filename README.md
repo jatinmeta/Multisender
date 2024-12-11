@@ -42,6 +42,16 @@ MetaSchool Token MultiSender is a decentralized application that allows users to
     npm run dev
     ```
 
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/71e3860e-030e-42e5-b5f6-46f43f2219cb" alt="Screenshot 1" width="350"></td>
+    <td><img src="https://github.com/user-attachments/assets/4a18f298-1593-4a7b-bc44-54afc921be86" alt="Screenshot 2" width="350"></td>
+    <td><img src="https://github.com/user-attachments/assets/78ba4528-548f-4293-b6ee-84f2fc9786ed" alt="Screenshot 3" width="350"></td>
+    <td><img src="https://github.com/user-attachments/assets/9d491640-5205-4047-a3ae-808447f98408" alt="Screenshot 4" width="350"></td>
+  </tr>
+</table>
 
 ## How to use Mulisender
 
@@ -73,8 +83,6 @@ MetaSchool Token MultiSender is a decentralized application that allows users to
 2. View your transaction details on **Etherscan** after sending.
 3. Option to **Download Receipt** for record-keeping.
 4. Wait for the transaction to complete and check the receipt for confirmation.
-
-
 
 
 
