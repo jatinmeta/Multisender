@@ -3,11 +3,11 @@ pragma solidity ^0.8.0;
 
 interface IERC20 
 {
-    // function transfer(address recipient, uint256 amount) external returns (bool);
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
     function approve(address spender, uint256 amount) external returns (bool);
     function balanceOf(address account) external view returns (uint256);
     function allowance(address owner, address spender) external view returns (uint256);
+    
 }
 
 library SafeERC20 
@@ -46,7 +46,7 @@ contract BatchTransfer
             if (!success) { revert("ETH transfer failed");}
         }
     }
-    
+
 
     function batchSendERC20(address token,address[] calldata recipients,uint256[] calldata amounts) external 
     { 
@@ -54,6 +54,18 @@ contract BatchTransfer
         require(recipients.length > 0, "No recipients provided");
         require(amounts.length > 0, "No amounts provided");
         require(recipients.length == amounts.length, "Mismatched recipients and amounts");
+
+        uint256 total = 0;
+
+        for (uint256 i = 0; i < amounts.length; i++) 
+        {
+            require(recipients[i] != address(0), "Invalid recipient address");
+            require(amounts[i] > 0, "Amount must be greater than 0");
+            total += amounts[i];
+        }
+
+        require(IERC20(token).balanceOf(msg.sender) >= total, "Insufficient balance");
+        require(IERC20(token).allowance(msg.sender, address(this)) >= total, "Insufficient allowance");  // Check allowance
 
         for (uint256 i = 0; i < recipients.length; i++) 
         {
