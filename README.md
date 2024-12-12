@@ -1,4 +1,4 @@
-# MetaSchool Token MultiSender
+# Token MultiSender
 
 MetaSchool Token MultiSender is a decentralized application that allows users to send tokens to multiple addresses in bulk efficiently and securely.
 
