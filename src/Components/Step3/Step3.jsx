@@ -72,11 +72,45 @@ const Step3 = ({ sharedState, updateSharedState, onBack }) =>
           errorMessage: "",
           estimatedGas: estimatedGas.toString(),
         });
-      } else {
-        const tokenAddress = selectedToken === "CUSTOM" ? customTokenAddress : tokenContracts[selectedToken];
-        const tx = await contract.batchSendERC20(tokenAddress, addresses, amounts, {
-          gasLimit: sharedState.estimatedGas,
-        });
+      } 
+      else 
+      
+      {
+        const tokenAddress = sharedState.selectedToken === "CUSTOM" ? sharedState.customTokenAddress : tokenContracts[sharedState.selectedToken];
+
+      const tokenContract = new ethers.Contract(tokenAddress,
+        ["function approve(address spender, uint256 amount) external returns (bool)",
+          "function allowance(address owner, address spender) view returns (uint256)",
+          "function decimals() view returns (uint8)",
+          "function safeApprove(address spender, uint256 amount) external;"
+        ],
+        sharedState.signer
+      );
+
+      const decimals = await tokenContract.decimals();
+      console.log("decimal=", decimals);
+
+      // Adjust amounts to the correct decimals
+      const adjustedAmounts = await Promise.all(sharedState.amounts.map(async (amount) => {return adjustAmountDecimals(amount, 18, decimals);}));
+
+      console.log("Adjusted amounts:", adjustedAmounts.map(a => a.toString()));
+
+      const totalAmount = adjustedAmounts.reduce(
+        (acc, amount) => acc.add(amount),
+        ethers.BigNumber.from(0)
+      );
+
+      console.log("Total Amount:", totalAmount.toString());
+
+      let txn = await contract.estimateGas.batchSendERC20(
+        tokenAddress,
+        sharedState.addresses,
+        adjustedAmounts,
+        { gasLimit: 210000 },
+        // { gasLimit: sharedState.estimatedGas }
+      );
+      await txn.wait();
+      console.log("Estimated Gas:", estimatedGas.toString());
 
         const receipt = await tx.wait();
         updateSharedState({
