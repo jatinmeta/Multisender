@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import './Step1.css';
 
-const CONTRACT_ADDRESS = ""; //0x0Ce7cF16730733aef9C988C1b9269Ce75834CE9A
+const CONTRACT_ADDRESS = "0x40BFA789014FCC59922585D08DB3C64F9eb7e445"; //0x0Ce7cF16730733aef9C988C1b9269Ce75834CE9A
 
 let CONTRACT_ABI = 
 [
@@ -133,6 +133,7 @@ const Step1 = ({ sharedState, updateSharedState, onNext }) => {
 
 
   const validateInput = (line) => {
+    
     let parts = line.trim().split(',').map(part => part.trim());
     if (parts.length !== 2) { 
       console.error(`Invalid input format: ${line}`); 
@@ -208,19 +209,17 @@ const Step1 = ({ sharedState, updateSharedState, onNext }) => {
             {
               updateSharedState({ selectedToken: e.target.value })
               handleTokenChange(e.target.value);
+              
+              
             }}
         >
           <option value="ETH">ETH</option>
-          {/* <option value="USDT">USDT</option>
-          <option value="USDC">USDC</option> */}
+          <option value="USDT">USDT</option>
+          <option value="USDC">USDC</option>
           <option value="WETH">WETH </option>
           <option value="DAI">DAI </option>
           <option value="CUSTOM">Custom Token</option>
         </select>
-
-
-
-
 
 
 
